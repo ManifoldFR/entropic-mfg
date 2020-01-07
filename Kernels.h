@@ -1,9 +1,9 @@
-#ifndef KERNELS_H_
-#define KERNELS_H_
-#include "RectangularGridLaplacian.h"
+#pragma once
 
 #include <iostream>
 #include <Eigen/Core>
+
+#include "RectangularGridLaplacian.h"
 
 using namespace Eigen;
 
@@ -11,7 +11,7 @@ using namespace Eigen;
 namespace kernels
 {
 
-class Kernel {
+class BaseKernel {
     public:
     virtual MatrixXd operator()(const ArrayXXd& x) const;
 };
@@ -19,7 +19,7 @@ class Kernel {
 
 /// Heat kernel on Euclidean space.
 template <size_t N>
-class EuclideanHeatKernel : Kernel {
+class EuclideanHeatKernel : BaseKernel {
     private:
     size_t dims_[N];
     double variance;
@@ -75,6 +75,3 @@ class EuclideanHeatKernel<2> {
 };
 
 }
-
-
-#endif

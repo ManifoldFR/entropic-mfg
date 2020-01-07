@@ -1,10 +1,10 @@
-#ifndef MESSAGES_H_
-#define MESSAGES_H_
+#pragma once
+
 #include <vector>
 #include <Eigen/Core>
-#include "include/Kernels.h"
+#include "Kernels.h"
 
-using kernels::Kernel;
+using kernels::BaseKernel;
 using namespace Eigen;
 
 namespace algorithms
@@ -19,15 +19,9 @@ namespace algorithms
  * @param ker Convolutional kernel
  * @return 
  */
-MatrixXd contract(std::vector<MatrixXd>& potentials, const size_t idx, const Kernel& ker);
+MatrixXd contract(std::vector<MatrixXd>& potentials, const size_t idx, const BaseKernel& ker);
 
 
-std::vector<MatrixXd> compute_marginals(std::vector<MatrixXd>& potentials, const Kernel& ker);
+std::vector<MatrixXd> compute_marginals(std::vector<MatrixXd>& potentials, const BaseKernel& ker);
     
 }
-
-
-
-
-
-#endif

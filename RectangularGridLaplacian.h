@@ -1,5 +1,5 @@
-#ifndef RECTANGLAPLACIAN_H_
-#define RECTANGLAPLACIAN_H_
+#pragma once
+
 #include <Eigen/SparseCore>
 #include <Eigen/SparseCholesky>
 /**
@@ -19,7 +19,3 @@ void make_matrix(SpMat& matrix) {
 
 }
 
-
-
-
-#endif
