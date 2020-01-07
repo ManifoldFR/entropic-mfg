@@ -11,7 +11,7 @@ message(STATUS "Found Python: ${Python_FOUND}")
 message(STATUS "Python includes at ${Python_INCLUDE_DIRS} ${Python_NumPy_INCLUDE_DIRS}")
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(EntropicMFG_SOURCES Kernels.h MessagePassing.h)
+set(EntropicMFG_SOURCES Kernels.h MessagePassing.h MessagePassing.cpp)
 
 
 add_library(entropicmfg ${EntropicMFG_SOURCES})
