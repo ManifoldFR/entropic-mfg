@@ -12,7 +12,7 @@ namespace plt = matplotlibcpp;
 
 
 int main() {
-    size_t nx = 16;  // number of points
+    size_t nx = 31;  // number of points
     double variance = 0.1;
     Kernel ker(nx, nx, 0., 1., 0., 1., variance);
 
@@ -29,13 +29,13 @@ int main() {
 
     const float* zptr = &(z[0]);
     std::cout << "Making figure" << std::endl;
-    // plt::title("Heat kernel on dimension 1");
-    const int color = 1;
-    plt::imshow(zptr, nx, nx, color);
-    plt::xlim(0., 1.);
-    plt::ylim(0., 1.);
+    const int colors = 1;
+    // Figure is defined
+    plt::imshow(zptr, (int)nx, (int)nx, colors);
+    plt::title("Euclidean heat kernel $K$");
 
-    plt::show("heatkernel.png");
+
+    plt::show();
 
     return 0;
 }
