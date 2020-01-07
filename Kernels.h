@@ -1,6 +1,6 @@
 #ifndef KERNELS_H_
 #define KERNELS_H_
-#include "Laplacian.h"
+#include "RectangularGridLaplacian.h"
 
 #include <iostream>
 #include <Eigen/Core>

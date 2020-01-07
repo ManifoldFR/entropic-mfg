@@ -14,6 +14,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(EntropicMFG_SOURCES
     Kernels.h
     MultiSinkhorn.h
+    RectangularGridLaplacian.h
     MessagePassing.h MessagePassing.cpp)
 
 
