@@ -24,23 +24,21 @@ target_link_libraries(entropicmfg OpenMP::OpenMP_CXX)
 
 set_target_properties(entropicmfg PROPERTIES LINKER_LANGUAGE CXX)
 
-
-add_executable(main main.cpp)
-target_sources(main PRIVATE matplotlibcpp.h)
-target_link_libraries(main Eigen3::Eigen)
-target_link_libraries(main Python::Python Python::NumPy)
-target_include_directories(main PRIVATE ${Python_INCLUDE_DIRS} ${Python_NumPy_INCLUDE_DIRS})
-
+if (${Python_NumPy_FOUND})
+    target_sources(entropicmfg PRIVATE matplotlibcpp.h)
+    target_link_libraries(entropicmfg Python::Python Python::NumPy)
+    target_include_directories(entropicmfg PRIVATE ${Python_INCLUDE_DIRS} ${Python_NumPy_INCLUDE_DIRS})
+endif()
 
 file(GLOB EXAMPLE_SOURCES examples/*.cpp)
 
-foreach(sourcefile ${EXAMPLE})
-    # I used a simple string replace, to cut off .cpp.
-    string( REPLACE ".cpp" "" testname ${sourcefile} )
+foreach(sourcefile ${EXAMPLE_SOURCES})
+    get_filename_component(testname ${sourcefile} NAME_WE)
+    message(STATUS "Found example ${testname}")
     add_executable( ${testname} ${sourcefile} )
-    # Make sure YourLib is linked to each app
     target_link_libraries(${testname} entropicmfg)
-endforeach(sourcefile ${EXAMPLE})
+    target_link_libraries(${testname} Eigen3::Eigen)
+endforeach(sourcefile ${EXAMPLE_SOURCES})
 
 
 
