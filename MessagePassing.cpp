@@ -8,7 +8,11 @@ using kernels::Kernel;
 using namespace Eigen;
 
 
-MatrixXd contract(std::vector<MatrixXd> potentials, size_t idx, Kernel ker) {
+namespace algorithms
+{
+
+
+MatrixXd contract(std::vector<MatrixXd>& potentials, size_t idx, const Kernel& ker) {
     size_t nx = potentials[0].rows();
     size_t ny = potentials[0].cols();
     MatrixXd A_ = MatrixXd::Ones(nx, ny);
@@ -21,7 +25,20 @@ MatrixXd contract(std::vector<MatrixXd> potentials, size_t idx, Kernel ker) {
         B_ = ker(potentials[k].array() * A_.array());
     }
 
-    MatrixXd result = A_.array() * B_.array();
+    return A_.array() * B_.array();
+}
+
+
+std::vector<MatrixXd> compute_marginals(std::vector<MatrixXd>& potentials, const Kernel& ker) {
+    size_t num_marginals = potentials.size();
+    std::vector<MatrixXd> result(num_marginals);
+
+    for (size_t i=0; i < num_marginals; i++) {
+        result[i] = potentials[i].array() * contract(potentials, i, ker).array();
+    }
 
     return result;
+
+}
+
 }

@@ -11,6 +11,7 @@ typedef EuclideanHeatKernel<2> Kernel;
 namespace plt = matplotlibcpp;
 
 
+#ifndef WITHOUT_NUMPY
 void plot_kernel(MatrixXd& K, int nx) {
     std::vector<float> z(nx * nx);
     for (int j=0; j<nx; j++) {
@@ -30,7 +31,7 @@ void plot_kernel(MatrixXd& K, int nx) {
     plt::show();
 
 }
-
+#endif
 
 int main() {
     size_t nx = 31;  // number of points
@@ -44,9 +45,9 @@ int main() {
 
     std::cout << "Hello from main" << std::endl;
     std::printf("Number of dimensions: %d\n", (int)ker.ndim());
-
+#ifndef WITHOUT_NUMPY
     plot_kernel(ker.K1, (int) nx);
+#endif
     
     return 0;
 }
-

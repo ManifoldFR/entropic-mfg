@@ -1,16 +1,32 @@
 #ifndef MESSAGES_H_
 #define MESSAGES_H_
-
 #include <vector>
 #include <Eigen/Core>
 #include <Kernels.h>
 
+using kernels::Kernel;
 using namespace Eigen;
 
+namespace algorithms
+{
 
-/// @param potentials - Dual potentials
-/// @param ker - Convolutional kernel
-MatrixXd contract(std::vector<MatrixXd> potentials, size_t idx, kernels::Kernel ker);
+/**
+ * Perform contraction of the dual potentials `potentials` with respect to the
+ * Wiener measure of kernel `ker`.
+ * 
+ * @param potentials Vector of dual potentials
+ * @param idx Index of the marginal to leave out.
+ * @param ker Convolutional kernel
+ * @return 
+ */
+MatrixXd contract(std::vector<MatrixXd>& potentials, const size_t idx, const Kernel& ker);
+
+
+std::vector<MatrixXd> compute_marginals(std::vector<MatrixXd>& potentials, const Kernel& ker);
+    
+}
+
+
 
 
 
