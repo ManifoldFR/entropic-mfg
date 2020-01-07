@@ -1,7 +1,7 @@
 #include <Eigen/Core>
 #include <iostream>
 #include <vector>
-#include "Kernels.h"
+#include "include/Kernels.h"
 #include "MessagePassing.h"
 #include "matplotlibcpp.h"
 

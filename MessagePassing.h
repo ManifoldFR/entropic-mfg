@@ -2,7 +2,7 @@
 #define MESSAGES_H_
 #include <vector>
 #include <Eigen/Core>
-#include <Kernels.h>
+#include "include/Kernels.h"
 
 using kernels::Kernel;
 using namespace Eigen;
