@@ -32,6 +32,17 @@ target_link_libraries(main Python::Python Python::NumPy)
 target_include_directories(main PRIVATE ${Python_INCLUDE_DIRS} ${Python_NumPy_INCLUDE_DIRS})
 
 
+file(GLOB EXAMPLE_SOURCES examples/*.cpp)
+
+foreach(sourcefile ${EXAMPLE})
+    # I used a simple string replace, to cut off .cpp.
+    string( REPLACE ".cpp" "" testname ${sourcefile} )
+    add_executable( ${testname} ${sourcefile} )
+    # Make sure YourLib is linked to each app
+    target_link_libraries(${testname} entropicmfg)
+endforeach(sourcefile ${EXAMPLE})
+
+
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

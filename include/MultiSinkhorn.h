@@ -6,6 +6,7 @@
 
 using namespace Eigen;
 
+/// Namespace for KL-proximal operators.
 namespace klprox
 {
 
@@ -14,7 +15,7 @@ class BaseProximalOperator {
     virtual MatrixXd operator()(MatrixXd& x) const = 0;
 };
 
-}  // namespace for KL proximal operators
+}  // namespace klprox
 
 
 

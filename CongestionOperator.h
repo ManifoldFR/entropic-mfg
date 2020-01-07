@@ -6,9 +6,9 @@
 
 using namespace Eigen;
 
+
 namespace klprox
 {
-
 /**
  * KL-proximal operator for the hard congestion opertor.
  */
