@@ -46,6 +46,7 @@ class ObstacleProx: public virtual BaseProximalOperator {
     MatrixXd operator()(const MatrixXd& x) const override {
         MatrixXd y(x);  // copy matrix
 
+        #pragma omp simd
         for (size_t i=0; i < nx; i++) {
             for (size_t j=0; j < ny; j++) {
                 if (obstacle_mask(i, j))

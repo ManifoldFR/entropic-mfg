@@ -79,6 +79,8 @@ class EuclideanHeatKernel<2> : public BaseKernel {
     }
 
     /// @param x: Matrix of size nx, ny
+    /// Compute the convolution wrt the kernel using the separability.
+    /// See Peyré and Cuturi, "Computational Optimal Transport" (2019).
     MatrixXd operator() (const MatrixXd& x) const override {
         return (K1 * x) * K2;
     }
