@@ -25,17 +25,15 @@ set(EntropicMFG_HEADERS
 
 set(EntropicMFG_SOURCES
     MultiSinkhorn.cpp
-    MessagePassing.cpp
-    )
+    MessagePassing.cpp)
 
 
-add_library(entropicmfg SHARED ${EntropicMFG_HEADERS})
+add_library(entropicmfg SHARED ${EntropicMFG_SOURCES})
 target_include_directories(entropicmfg PUBLIC .)
 target_link_libraries(entropicmfg Eigen3::Eigen)
 target_link_libraries(entropicmfg OpenMP::OpenMP_CXX)
 set_target_properties(entropicmfg PROPERTIES
-    LINKER_LANGUAGE CXX
-    POSITION_INDEPENDENT_CODE TRUE)
+    LINKER_LANGUAGE CXX)
 target_compile_options(entropicmfg PRIVATE -fPIC)
 
 

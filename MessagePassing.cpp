@@ -1,7 +1,6 @@
 #include "MessagePassing.h"
 #include "Kernels.h"
 
-#include <memory>
 #include <vector>
 #include <Eigen/Core>
 
@@ -14,7 +13,7 @@ namespace algorithms
 {
 
 
-MatrixXd contract(std::vector<MatrixXd>& potentials, size_t idx, BaseKernel* ker) {
+MatrixXd contract(std::vector<Ref<MatrixXd>>& potentials, size_t idx, BaseKernel* ker) {
     size_t nx = potentials[0].rows();
     size_t ny = potentials[0].cols();
     MatrixXd A_ = MatrixXd::Ones(nx, ny);
@@ -31,7 +30,8 @@ MatrixXd contract(std::vector<MatrixXd>& potentials, size_t idx, BaseKernel* ker
 }
 
 
-std::vector<MatrixXd> compute_marginals(std::vector<MatrixXd>& potentials, BaseKernel* ker) {
+std::vector<MatrixXd> compute_marginals(std::vector<Ref<MatrixXd>>& potentials,
+                                        BaseKernel* ker) {
     size_t num_marginals = potentials.size();
     std::vector<MatrixXd> result(num_marginals);
 

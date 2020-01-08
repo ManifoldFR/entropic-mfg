@@ -8,7 +8,7 @@ namespace sinkhorn
 {
 using namespace messages;
 
-void MultimarginalSinkhorn::iterate(std::vector<MatrixXd>& potentials) {
+void MultimarginalSinkhorn::iterate(std::vector<Ref<MatrixXd>>& potentials) {
 
     size_t num_marginals = potentials.size();
 

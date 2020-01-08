@@ -4,7 +4,6 @@
 #include <iostream>
 #include <Eigen/Core>
 
-#include "RectangularGridLaplacian.h"
 
 using namespace Eigen;
 

@@ -10,25 +10,34 @@ using namespace Eigen;
 namespace klprox
 {
 /**
- * KL-proximal operator for the hard congestion opertor.
+ * KL-proximal operator for the hard congestion operator
+ * with a reference potential function.
+ * 
  */
 class CongestionPotentialProx: public virtual BaseProximalOperator {
     private:
     double congest_max;
     MatrixXd psi;
+    const size_t nx, ny;
     
     public:
-    CongestionPotentialProx(double congest_max, const MatrixXd& psi): congest_max(congest_max), psi(psi) {}
+    CongestionPotentialProx(double congest_max, const MatrixXd& psi):
+    congest_max(congest_max), psi(psi), nx(psi.rows()), ny(psi.cols()) {}
     MatrixXd operator()(const MatrixXd& x) const override {
         ArrayXXd y = exp(-psi.array()) * x.array();
         return y.min(congest_max);
     }
+
 };
 
+/**
+ * KL-proximal operator for the obstacle or "mask" constraint (zero mass on the mask).
+ * 
+ */
 class ObstacleProx: public virtual BaseProximalOperator {
     private:
-    ArrayXXi obstacle_mask;
     /// May be mutable for moving obstacles
+    ArrayXXi obstacle_mask;
     const size_t nx, ny;
 
     public:
@@ -45,6 +54,7 @@ class ObstacleProx: public virtual BaseProximalOperator {
         }
         return y;
     }
+
 };
 
 /**

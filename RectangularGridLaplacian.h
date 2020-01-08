@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Eigen/Core>
 #include <Eigen/SparseCore>
 #include <Eigen/SparseCholesky>
 /**
@@ -8,14 +9,15 @@
  * 
  */
 
-// Column-major matrix of doubles
-typedef Eigen::SparseMatrix<double> SpMat;
+using namespace Eigen;
+
+namespace laplacian {
 
 
-/// Define the Laplacian matrix.
-void make_matrix(SpMat& matrix) {
-
-
-
+/// Laplacian operator on a rectangular grid with the given mask
+void build_matrix(const ArrayXXi& mask) {
+    size_t nx = mask.rows();
+    size_t ny = mask.cols();
 }
 
+}

@@ -20,10 +20,10 @@ namespace messages
  * @param ker Convolutional kernel
  * @return 
  */
-MatrixXd contract(std::vector<MatrixXd>& potentials,
+MatrixXd contract(std::vector<Ref<MatrixXd>>& potentials,
                   const size_t idx, KernelPtr ker);
 
 
-std::vector<MatrixXd> compute_marginals(std::vector<MatrixXd>& potentials, KernelPtr ker);
+std::vector<MatrixXd> compute_marginals(std::vector<Ref<MatrixXd>>& potentials, KernelPtr ker);
     
 }
