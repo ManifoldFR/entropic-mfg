@@ -12,7 +12,7 @@ namespace klprox
 /**
  * KL-proximal operator for the hard congestion opertor.
  */
-class CongestionPotentialProx: BaseProximalOperator {
+class CongestionPotentialProx: public virtual BaseProximalOperator {
     private:
     double congest_max;
     MatrixXd psi;
@@ -23,29 +23,26 @@ class CongestionPotentialProx: BaseProximalOperator {
         ArrayXXd y = exp(-psi.array()) * x.array();
         return y.min(congest_max);
     }
-
 };
 
-class ObstacleProx: BaseProximalOperator {
+class ObstacleProx: public virtual BaseProximalOperator {
     private:
-    ArrayXXd obstacle_mask;
-    size_t nx, ny;
+    /// May be mutable for moving obstacles
+    ArrayXXi obstacle_mask;
+    const size_t nx, ny;
 
     public:
-    ObstacleProx(const ArrayXXd& mask): obstacle_mask(mask) {
-        nx = mask.rows();
-        ny = mask.cols();
-    }
+    ObstacleProx(const ArrayXXi& mask): obstacle_mask(mask), nx(mask.rows()), ny(mask.cols()) {}
 
     MatrixXd operator()(MatrixXd& x) const override {
-        MatrixXd y = x;  // copy matrix
+        MatrixXd y(x);  // copy matrix
 
         for (size_t i=0; i < nx; i++) {
             for (size_t j=0; j < ny; j++) {
-                y(i, j) = 0.;
+                if (obstacle_mask(i, j))
+                    y(i, j) = 0.;
             }
         }
-
         return y;
     }
 };
@@ -54,10 +51,11 @@ class ObstacleProx: BaseProximalOperator {
  * Combined KL-proximal operator for both congestion, potential and obstacles.
  * 
  */
-class CongestionObstacleProx: CongestionPotentialProx, ObstacleProx {
+class CongestionObstacleProx: public CongestionPotentialProx, public ObstacleProx {
     public:
-    CongestionObstacleProx(const ArrayXXd& mask, double congest_max, const MatrixXd& psi
+    CongestionObstacleProx(const ArrayXXi& mask, double congest_max, const MatrixXd& psi
     ): CongestionPotentialProx(congest_max, psi), ObstacleProx(mask) {}
+
 
     MatrixXd operator()(MatrixXd& x) const override {
         MatrixXd y = CongestionPotentialProx::operator()(x);

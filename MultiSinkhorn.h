@@ -1,30 +1,56 @@
 #pragma once
-
+/***
+ * 
+ */
 #include <Eigen/Core>
 #include <vector>
 #include <memory>
 
+#include "Kernels.h"
+
 
 using namespace Eigen;
+using std::shared_ptr;
 
-/// Namespace for KL-proximal operators.
+/// KL-proximal operators.
 namespace klprox
 {
 
 class BaseProximalOperator {
     public:
+    virtual ~BaseProximalOperator() = default;
     virtual MatrixXd operator()(MatrixXd& x) const = 0;
-};
-
-class MultimarginalSinkhorn {
-    private:
-    /// Running cost proximal operator
-    std::shared_ptr<BaseProximalOperator> running;
-    /// Terminal cost proximal operator
-    std::shared_ptr<BaseProximalOperator> terminal;
 };
 
 }  // namespace klprox
 
 
+/// Sinkhorn algorithm.
+namespace sinkhorn {
 
+using klprox::BaseProximalOperator;
+
+class MultimarginalSinkhorn {
+    private:
+    /// Running cost proximal operator
+    shared_ptr<BaseProximalOperator> running;
+    /// Terminal cost proximal operator
+    shared_ptr<BaseProximalOperator> terminal;
+    /// Initial marginal
+    MatrixXd rho_0;
+    /// Kernel
+    kernels::KernelPtr kernel;
+
+
+    public:
+    MultimarginalSinkhorn(
+        shared_ptr<BaseProximalOperator> running,
+        shared_ptr<BaseProximalOperator> terminal,
+        kernels::KernelPtr kernel):
+    running(running), terminal(terminal), kernel(kernel) {}
+
+    /// Perform one iterate of the multimarginal Sinkhorn algorithm.
+    void iterate(std::vector<MatrixXd>& potentials);
+};
+
+}

@@ -1,13 +1,14 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 #include <Eigen/Core>
 #include "Kernels.h"
 
-using kernels::BaseKernel;
+using kernels::KernelPtr;
 using namespace Eigen;
 
-namespace algorithms
+namespace messages
 {
 
 /**
@@ -19,9 +20,10 @@ namespace algorithms
  * @param ker Convolutional kernel
  * @return 
  */
-MatrixXd contract(std::vector<MatrixXd>& potentials, const size_t idx, const BaseKernel& ker);
+MatrixXd contract(std::vector<MatrixXd>& potentials,
+                  const size_t idx, KernelPtr ker);
 
 
-std::vector<MatrixXd> compute_marginals(std::vector<MatrixXd>& potentials, const BaseKernel& ker);
+std::vector<MatrixXd> compute_marginals(std::vector<MatrixXd>& potentials, KernelPtr ker);
     
 }
