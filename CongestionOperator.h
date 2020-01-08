@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Eigen/Dense>
-#include "MultiSinkhorn.h"
+#include "KLOperator.h"
 
 
 using namespace Eigen;
@@ -19,7 +19,7 @@ class CongestionPotentialProx: public virtual BaseProximalOperator {
     
     public:
     CongestionPotentialProx(double congest_max, const MatrixXd& psi): congest_max(congest_max), psi(psi) {}
-    MatrixXd operator()(MatrixXd& x) const override {
+    MatrixXd operator()(const MatrixXd& x) const override {
         ArrayXXd y = exp(-psi.array()) * x.array();
         return y.min(congest_max);
     }
@@ -27,14 +27,14 @@ class CongestionPotentialProx: public virtual BaseProximalOperator {
 
 class ObstacleProx: public virtual BaseProximalOperator {
     private:
-    /// May be mutable for moving obstacles
     ArrayXXi obstacle_mask;
+    /// May be mutable for moving obstacles
     const size_t nx, ny;
 
     public:
     ObstacleProx(const ArrayXXi& mask): obstacle_mask(mask), nx(mask.rows()), ny(mask.cols()) {}
 
-    MatrixXd operator()(MatrixXd& x) const override {
+    MatrixXd operator()(const MatrixXd& x) const override {
         MatrixXd y(x);  // copy matrix
 
         for (size_t i=0; i < nx; i++) {
@@ -57,7 +57,7 @@ class CongestionObstacleProx: public CongestionPotentialProx, public ObstaclePro
     ): CongestionPotentialProx(congest_max, psi), ObstacleProx(mask) {}
 
 
-    MatrixXd operator()(MatrixXd& x) const override {
+    MatrixXd operator()(const MatrixXd& x) const override {
         MatrixXd y = CongestionPotentialProx::operator()(x);
         return ObstacleProx::operator()(y);
     }

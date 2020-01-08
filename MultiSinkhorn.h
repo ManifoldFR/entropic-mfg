@@ -1,28 +1,18 @@
 #pragma once
 /***
- * 
+ * Generalized multimarginal Sinkhorn algorithm.
  */
 #include <Eigen/Core>
 #include <vector>
 #include <memory>
 
 #include "Kernels.h"
+#include "KLOperator.h"
 
 
 using namespace Eigen;
 using std::shared_ptr;
 
-/// KL-proximal operators.
-namespace klprox
-{
-
-class BaseProximalOperator {
-    public:
-    virtual ~BaseProximalOperator() = default;
-    virtual MatrixXd operator()(MatrixXd& x) const = 0;
-};
-
-}  // namespace klprox
 
 
 /// Sinkhorn algorithm.

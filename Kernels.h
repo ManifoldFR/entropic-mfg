@@ -62,6 +62,7 @@ class EuclideanHeatKernel<2> : public BaseKernel {
         auto yar = VectorXd::LinSpaced(ny, ymin, ymax);
 
         double delta = 0.;
+        #pragma omp simd
         for (size_t i=0; i < nx; i++) {
             for (size_t j=0; j < nx; j++) {
                 delta = xar[i]-xar[j];
@@ -69,6 +70,7 @@ class EuclideanHeatKernel<2> : public BaseKernel {
             }
         }
 
+        #pragma omp simd
         for (size_t i=0; i < ny; i++) {
             for (size_t j=0; j < ny; j++) {
                 delta = yar[i]-yar[j];
