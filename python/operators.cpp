@@ -15,11 +15,11 @@ public:
 
     MatrixXd operator()(const MatrixXd& x) const override {
         PYBIND11_OVERLOAD_NAME(
-            MatrixXd, /* Return type */
-            klprox::BaseProximalOperator, /* Parent class */
+            MatrixXd,   /* Return type */
+            klprox::BaseProximalOperator,   /* Parent class */
             "__call__", /* Name of function in Python */
             operator(), /* Name of function in C++ */
-            x      /* Argument(s) */
+            x           /* Argument(s) */
         );
     }
 

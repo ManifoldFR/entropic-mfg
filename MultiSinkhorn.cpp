@@ -28,6 +28,16 @@ void MultimarginalSinkhorn::iterate(std::vector<Ref<MatrixXd>>& potentials) {
 
 }
 
+void MultimarginalSinkhorn::run_sinkhorn(std::vector<Ref<MatrixXd>>& potentials, int num_iterations) {
+    for (int i = 0; i < num_iterations; i++) {
+        this->iterate(potentials);
+    }
+}
+
+inline std::vector<MatrixXd> MultimarginalSinkhorn::get_marginals(std::vector<Ref<MatrixXd>>& potentials) {
+    return compute_marginals(potentials, kernel);
+}
+
 } // namespace sinkhorn
 
 

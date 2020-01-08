@@ -80,7 +80,7 @@ class EuclideanHeatKernel<2> : public BaseKernel {
 
     /// @param x: Matrix of size nx, ny
     MatrixXd operator() (const MatrixXd& x) const override {
-        return K2 * (K1 * x);
+        return (K1 * x) * K2;
     }
 
 

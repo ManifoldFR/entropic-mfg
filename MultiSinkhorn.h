@@ -41,6 +41,10 @@ class MultimarginalSinkhorn {
 
     /// Perform one iterate of the multimarginal Sinkhorn algorithm.
     void iterate(std::vector<Ref<MatrixXd>>& potentials);
+
+    void run_sinkhorn(std::vector<Ref<MatrixXd>>& potentials, int num_iterations);
+
+    inline std::vector<MatrixXd> get_marginals(std::vector<Ref<MatrixXd>>& potentials);
 };
 
 }

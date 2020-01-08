@@ -2,6 +2,8 @@ find_package(pybind11 REQUIRED)
 
 set(SOURCES
     operators.cpp
+    kernels.cpp
+    sinkhorn.cpp
     bindings.cpp)
 
 

@@ -15,6 +15,11 @@ nx = 41
 xar = np.linspace(0, 1, nx)
 xg, yg = np.meshgrid(xar, xar)
 
+epsilon = 0.1
+kernel = mfg.kernels.EuclideanKernel(
+    nx, nx, 0, 1, 0, 1, epsilon)
+
+
 # Define domain mask
 mask = np.zeros((nx, nx), dtype=int)
 mask[:2, :] = mask[-2:, :] = 1
