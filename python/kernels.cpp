@@ -39,7 +39,9 @@ void bind_kernels(py::module& m) {
 
     py::class_<Kernel2D, BaseKernel, std::shared_ptr<Kernel2D>>(m2, "EuclideanKernel")
         .def(py::init<size_t, size_t, double, double,
-                      double, double, double>());
+                      double, double, double>())
+        .def_readonly("K1", &Kernel2D::K1)
+        .def_readonly("K2", &Kernel2D::K2);
 
 }
 

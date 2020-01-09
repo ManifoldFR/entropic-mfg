@@ -13,6 +13,7 @@ namespace kernels
 
 class BaseKernel {
     public:
+    virtual ~BaseKernel() = default;
     virtual MatrixXd operator()(const MatrixXd& x) const = 0;
 };
 
