@@ -13,21 +13,23 @@ namespace messages
 {
 
 
-MatrixXd contract(std::vector<Ref<MatrixXd>>& potentials, const int idx, KernelPtr ker) {
+ArrayXXd contract(std::vector<Ref<MatrixXd>>& potentials, const int idx, KernelPtr ker) {
     size_t nx = potentials[0].rows();
     size_t ny = potentials[0].cols();
 
-    MatrixXd A_ = MatrixXd::Ones(nx, ny);
-    for (int k=0; k < idx; k++) {
-        A_ = ker->operator()(potentials[k].array() * A_.array());
+    int k;
+
+    ArrayXXd A_ = MatrixXd::Ones(nx, ny);
+    for (k=0; k < idx; k++) {
+        A_ = ker->operator()(potentials[k].array() * A_);
     }
 
 
-    MatrixXd B_ = MatrixXd::Ones(nx, ny);
-    for (int k=potentials.size()-1; k > idx; k--) {
-        B_ = ker->operator()(potentials[k].array() * B_.array());
+    ArrayXXd B_ = MatrixXd::Ones(nx, ny);
+    for (k=potentials.size()-1; k > idx; k--) {
+        B_ = ker->operator()(potentials[k].array() * B_);
     }
-    return A_.array() * B_.array();
+    return A_ * B_;
 }
 
 

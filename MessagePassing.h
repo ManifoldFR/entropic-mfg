@@ -20,7 +20,7 @@ namespace messages
  * @param ker Convolutional kernel
  * @return 
  */
-MatrixXd contract(std::vector<Ref<MatrixXd>>& potentials,
+ArrayXXd contract(std::vector<Ref<MatrixXd>>& potentials,
                   const int idx, KernelPtr ker);
 
 
