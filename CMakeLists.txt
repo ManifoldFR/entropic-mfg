@@ -17,11 +17,11 @@ message(STATUS "Python includes at ${Python_INCLUDE_DIRS} ${Python_NumPy_INCLUDE
 set(EntropicMFG_HEADERS
     Kernels.h
     Utils.h
-    MultiSinkhorn.h
     KLOperator.h
     CongestionOperator.h
     RectangularGridLaplacian.h
-    MessagePassing.h)
+    MessagePassing.h
+    MultiSinkhorn.h)
 
 set(EntropicMFG_SOURCES
     MultiSinkhorn.cpp
@@ -32,8 +32,7 @@ add_library(entropicmfg SHARED ${EntropicMFG_SOURCES})
 target_include_directories(entropicmfg PUBLIC .)
 target_link_libraries(entropicmfg Eigen3::Eigen)
 target_link_libraries(entropicmfg OpenMP::OpenMP_CXX)
-set_target_properties(entropicmfg PROPERTIES
-    LINKER_LANGUAGE CXX)
+set_target_properties(entropicmfg PROPERTIES LINKER_LANGUAGE CXX)
 target_compile_options(entropicmfg PRIVATE -fPIC)
 
 

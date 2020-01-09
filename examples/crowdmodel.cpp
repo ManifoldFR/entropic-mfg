@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
     
     shared_ptr<CongestionObstacleProx> terminal(running);
 
-    sinkhorn::MultimarginalSinkhorn sink(running, terminal, kernel_ptr);
+    sinkhorn::MultimarginalSinkhorn sink(running, terminal, kernel_ptr, rho_0);
 
 
     return 1;

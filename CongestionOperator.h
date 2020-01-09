@@ -1,5 +1,6 @@
 #pragma once
 
+#include <omp.h>
 #include <Eigen/Dense>
 #include "KLOperator.h"
 

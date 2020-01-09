@@ -14,7 +14,6 @@ void MultimarginalSinkhorn::iterate(std::vector<Ref<MatrixXd>>& potentials) {
 
     ArrayXXd conv;
 
-
     conv = contract(potentials, 0, kernel);
     potentials[0] = rho_0.array() / conv;
 
@@ -28,13 +27,13 @@ void MultimarginalSinkhorn::iterate(std::vector<Ref<MatrixXd>>& potentials) {
 
 }
 
-void MultimarginalSinkhorn::run_sinkhorn(std::vector<Ref<MatrixXd>>& potentials, int num_iterations) {
+void MultimarginalSinkhorn::run(std::vector<Ref<MatrixXd>>& potentials, int num_iterations) {
     for (int i = 0; i < num_iterations; i++) {
         this->iterate(potentials);
     }
 }
 
-inline std::vector<MatrixXd> MultimarginalSinkhorn::get_marginals(std::vector<Ref<MatrixXd>>& potentials) {
+std::vector<MatrixXd> MultimarginalSinkhorn::get_marginals(std::vector<Ref<MatrixXd>>& potentials) {
     return compute_marginals(potentials, kernel);
 }
 

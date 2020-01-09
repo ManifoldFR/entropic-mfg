@@ -1,12 +1,15 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/eigen.h>
+
+#include <omp.h>
 
 
 namespace py = pybind11;
 
 
 void bind_prox(py::module &);
-void bind_sinkhorn(py::module &);
 void bind_kernels(py::module &);
+void bind_sinkhorn(py::module &);
 
 
 PYBIND11_MODULE(pyentropicmfg, m) {
@@ -14,8 +17,8 @@ PYBIND11_MODULE(pyentropicmfg, m) {
         "minimization approach.";
 
     bind_prox(m);
-    bind_sinkhorn(m);
     bind_kernels(m);
+    bind_sinkhorn(m);
 
 }
 

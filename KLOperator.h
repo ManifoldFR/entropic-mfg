@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <Eigen/Core>
 
 
@@ -14,5 +15,7 @@ class BaseProximalOperator {
     virtual ~BaseProximalOperator() = default;
     virtual MatrixXd operator()(const MatrixXd& x) const = 0;
 };
+
+typedef std::shared_ptr<BaseProximalOperator> ProxPtr;
 
 }  // namespace klprox

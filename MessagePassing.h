@@ -21,7 +21,7 @@ namespace messages
  * @return 
  */
 MatrixXd contract(std::vector<Ref<MatrixXd>>& potentials,
-                  const size_t idx, KernelPtr ker);
+                  const int idx, KernelPtr ker);
 
 
 std::vector<MatrixXd> compute_marginals(std::vector<Ref<MatrixXd>>& potentials, KernelPtr ker);
