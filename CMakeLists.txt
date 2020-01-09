@@ -4,6 +4,8 @@ project(EntropicMFG VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
+set(CMAKE_CXX_STANDARD 14)
+
 find_package(Python COMPONENTS Development NumPy)  # required for matplotlibcpp 
 find_package(Eigen3 3.3 REQUIRED)
 find_package(OpenMP REQUIRED)
