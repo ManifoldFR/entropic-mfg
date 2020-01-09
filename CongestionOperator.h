@@ -18,14 +18,14 @@ namespace klprox
 class CongestionPotentialProx: public virtual BaseProximalOperator {
     private:
     double congest_max;
-    MatrixXd psi;
+    ArrayXXd psi;
     const size_t nx, ny;
     
     public:
     CongestionPotentialProx(double congest_max, const MatrixXd& psi):
     congest_max(congest_max), psi(psi), nx(psi.rows()), ny(psi.cols()) {}
     MatrixXd operator()(const MatrixXd& x) const override {
-        ArrayXXd y = exp(-psi.array()) * x.array();
+        ArrayXXd y = x.array() * exp(-psi);
         return y.min(congest_max);
     }
 
@@ -45,16 +45,8 @@ class ObstacleProx: public virtual BaseProximalOperator {
     ObstacleProx(const ArrayXXi& mask): obstacle_mask(mask), nx(mask.rows()), ny(mask.cols()) {}
 
     MatrixXd operator()(const MatrixXd& x) const override {
-        MatrixXd y(x);  // copy matrix
-
-        #pragma omp simd
-        for (size_t i=0; i < nx; i++) {
-            for (size_t j=0; j < ny; j++) {
-                if (obstacle_mask(i, j))
-                    y(i, j) = 0.;
-            }
-        }
-        return y;
+        auto mask_dbl = 1. - obstacle_mask.cast<double>();
+        return x.array() * mask_dbl;
     }
 
 };
