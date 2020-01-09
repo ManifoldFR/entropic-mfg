@@ -28,6 +28,8 @@ void plot_kernel(const double* kernel_data, int nx) {
     plt::tight_layout();
 
     plt::show();
+
+    plt::close();
 }
 
 #endif
