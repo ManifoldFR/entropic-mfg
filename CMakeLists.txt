@@ -10,7 +10,7 @@ find_package(Python COMPONENTS Development NumPy)  # required for matplotlibcpp
 find_package(Eigen3 3.3 REQUIRED)
 find_package(OpenMP REQUIRED)
 
-add_definitions(-DEIGEN_DONT_PARALLELIZE)
+# add_definitions(-DEIGEN_DONT_PARALLELIZE)
 
 
 message(STATUS "Python includes at ${Python_INCLUDE_DIRS} ${Python_NumPy_INCLUDE_DIRS}")
@@ -33,7 +33,6 @@ set(EntropicMFG_SOURCES
 add_library(entropicmfg SHARED ${EntropicMFG_SOURCES})
 target_include_directories(entropicmfg PUBLIC .)
 target_link_libraries(entropicmfg Eigen3::Eigen)
-target_link_libraries(entropicmfg OpenMP::OpenMP_CXX)
 set_target_properties(entropicmfg PROPERTIES LINKER_LANGUAGE CXX)
 target_compile_options(entropicmfg PRIVATE -fPIC)
 

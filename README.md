@@ -1,8 +1,10 @@
 # Entropic variational mean-field games
 
-This C++ library implements methods for solving second order variational mean-field games using an entropy minimization approach.
+This C++ library implements methods for solving second order variational mean-field games using an entropy minimization approach. Comes with Python bindings using [Pybind11](https://github.com/pybind/pybind11).
 
 This is a rewrite of my own Python/Cython implementation: https://github.com/ManifoldFR/mva-optimaltransport/tree/master/project.
+
+![](python/examples/euclidean_simple.png)
 
 ## Dependencies
 
