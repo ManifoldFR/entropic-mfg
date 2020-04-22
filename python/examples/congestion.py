@@ -3,7 +3,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-sys.path.append(os.getcwd() + 'build/python/')
+sys.path.append(os.getcwd())
 
 import build.python.pyentropicmfg as mfg
 
