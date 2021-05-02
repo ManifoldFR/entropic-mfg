@@ -4,7 +4,7 @@ This C++ library implements methods for solving second order variational mean-fi
 
 This is a rewrite of my own Python/Cython implementation: https://github.com/ManifoldFR/mva-optimaltransport/tree/master/project.
 
-![simple euclidean example](python/examples/euclidean_simple.png)
+![simple euclidean example](examples/euclidean_simple.png)
 
 ![convergence speed](examples/hilbert_metric_convergence.png)
 
