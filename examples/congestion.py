@@ -86,7 +86,7 @@ sinkhorn = mfg.sinkhorn.MultiSinkhorn(
 sinkhorn.threshold = 1e-8
 
 dual_potentials = [
-    np.ones_like(rho_0, order='F') for _ in range(nsteps)
+    np.ones_like(rho_0) for _ in range(nsteps)
 ]
 
 
@@ -121,7 +121,6 @@ def plot_convergence(solver):
     ax.set_xlabel("Iterations")
     ax.set_ylabel(r"Hilbert metric $\mathcal{H}$")
     ax.set_yscale('log')
-    plt.show()
 
 
 def plot_fun():
@@ -144,8 +143,8 @@ def plot_fun():
             ax.set_title("Time step $t=%d$" % t)
     plt.tight_layout()
     plt.suptitle("MFG evolution: CPU time %.1fs." % sink_time)
-    plt.show()
 
 
 plot_fun()
 plot_convergence(sinkhorn)
+plt.show()

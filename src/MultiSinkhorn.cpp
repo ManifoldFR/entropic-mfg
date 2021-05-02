@@ -14,8 +14,9 @@ namespace sinkhorn
 void MultimarginalSinkhorn::iterate() {
 
     size_t n_marg = potentials_.size();
-    std::vector<MatrixXd> old_potentials;
-    old_potentials = potentials_;
+    for (size_t t = 0; t < n_marg; t++) {
+        _old_potentials[t] = potentials_[t];
+    }
 
     ArrayXXd conv_pre_;
 
@@ -37,14 +38,21 @@ void MultimarginalSinkhorn::iterate() {
     potentials_[n_marg-1] = (*terminal)(conv_pre_).array() / (conv_pre_ + EPSILON);
     pbar.print_progress();
 
-    double dist = hilbert_metric<double>(old_potentials, potentials_);
+    double dist = hilbert_metric<double>(_old_potentials, potentials_);
     metric_vals_.push_back(dist);
 }
 
-bool MultimarginalSinkhorn::solve(size_t num_iterations, std::vector<MatrixXd> &potentials)
+bool MultimarginalSinkhorn::solve(size_t num_iterations, std::vector<MatrixXd> &potentials, bool verbose)
 {
+    verbose_ = verbose;
+    if (verbose_)
+        std::cout << BLUE << "> MultiSinkhorn solver" << RESET << std::endl;
+
     nsteps_ = potentials.size();
+    metric_vals_.resize(0);
+    _old_potentials.resize(nsteps_);
     potentials_.resize(nsteps_);
+
     for (size_t t = 0; t < nsteps_; t++) {
         potentials_[t].noalias() = potentials[t];
     }

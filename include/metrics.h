@@ -13,7 +13,7 @@ constexpr double EPSILON = std::numeric_limits<double>::epsilon();
 using namespace Eigen;
 
 template<typename S = double>
-S hilbert_metric(const Matrix<S,-1,-1>& u, const Matrix<S,-1,-1>& v)
+S inline hilbert_metric(const Matrix<S,-1,-1>& u, const Matrix<S,-1,-1>& v)
 {
     auto a = u.array() + EPSILON;
     auto b = v.array() + EPSILON;
@@ -24,8 +24,8 @@ S hilbert_metric(const Matrix<S,-1,-1>& u, const Matrix<S,-1,-1>& v)
 }
 
 template <typename S = double>
-S hilbert_metric(const std::vector<Matrix<S, -1, -1>> us,
-                 const std::vector<Matrix<S, -1, -1>> vs)
+S inline hilbert_metric(const std::vector<Matrix<S, -1, -1>> us,
+                        const std::vector<Matrix<S, -1, -1>> vs)
 {
     assert(us.size() == vs.size() && "us and vs should have the same lengths.");
     S result = 0.;

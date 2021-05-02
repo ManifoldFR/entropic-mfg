@@ -21,7 +21,9 @@ void bind_sinkhorn(py::module& m) {
                       kernels::KernelPtr,
                       Eigen::MatrixXd&>())
         .def("iterate", &MultimarginalSinkhorn::iterate)
-        .def("solve", &MultimarginalSinkhorn::solve)
+        .def("solve", &MultimarginalSinkhorn::solve,
+             py::arg("num_iterations"), py::arg("potentials"),
+             py::arg("verbose") = true)
         .def("get_marginals", &MultimarginalSinkhorn::get_marginals,
              py::return_value_policy::copy)
         .def_readwrite("threshold", &MultimarginalSinkhorn::threshold_)

@@ -32,8 +32,10 @@ private:
     KernelPtr kernel;
     /// Dual potentials.
     std::vector<MatrixXd> potentials_;
+    std::vector<MatrixXd> _old_potentials;
     /// Values of the Hilbert metric
     std::vector<double> metric_vals_;
+    bool verbose_ = false;
 
 public:
     double threshold_ = 1e-8;
@@ -58,7 +60,8 @@ public:
     ///
     /// @param[in] num_iterations maximum number of iterations to perform
     /// @param[out] potentials
-    bool solve(size_t num_iterations, std::vector<MatrixXd> &potentials);
+    /// @param[in] verbose
+    bool solve(size_t num_iterations, std::vector<MatrixXd> &potentials, bool verbose=true);
 
     /// Return the marginal densities.
     std::vector<MatrixXd> get_marginals();
