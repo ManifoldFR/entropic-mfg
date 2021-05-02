@@ -6,6 +6,8 @@ This is a rewrite of my own Python/Cython implementation: https://github.com/Man
 
 ![simple euclidean example](python/examples/euclidean_simple.png)
 
+![convergence speed](examples/hilbert_metric_convergence.png)
+
 ## Dependencies
 
 We use the powerful [C++ `matplotlib` bindings](https://github.com/lava/matplotlib-cpp). Grab the header with wget:
