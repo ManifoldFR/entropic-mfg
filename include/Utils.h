@@ -4,13 +4,11 @@
 #include "matplotlibcpp.h"
 
 using Eigen::MatrixXd;
-using kernels::BaseKernel;
+using kernels::KernelBase;
 namespace plt = matplotlibcpp;
 
 namespace utils
 {
-
-#ifndef WITHOUT_NUMPY
 
 /**
  *  Plot the kernel matrix K.
@@ -19,19 +17,28 @@ namespace utils
 void plot_kernel(const double* kernel_data, int nx) {
     std::vector<float> z(kernel_data, kernel_data+nx*nx);
     
-    const float* zptr = &(z[0]);
     std::cout << "Making figure" << std::endl;
     const int colors = 1;
     // Figure is defined
-    plt::imshow(zptr, nx, nx, colors);
+    plt::imshow(z.data(), nx, nx, colors);
     plt::title("Euclidean heat kernel $K$");
     plt::tight_layout();
 
     plt::show();
 
-    plt::close();
 }
 
-#endif
+template<typename S = double>
+void plot_solution(const Eigen::Matrix<S, -1, -1>& x)
+{
+    const double *xdata = x.data();
+    std::vector<float> z(xdata, xdata+x.rows()*x.cols());
+    const int colors = 1;
+
+    plt::figure();
+    plt::imshow(z.data(), x.rows(), x.cols(), colors);
+    plt::title("Solution");
+    plt::show();
+}
 
 }  // namespace utils

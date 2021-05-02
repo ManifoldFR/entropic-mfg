@@ -8,53 +8,64 @@ set(CMAKE_CXX_STANDARD 14)
 
 find_package(Python COMPONENTS Development NumPy)  # required for matplotlibcpp 
 find_package(Eigen3 3.3 REQUIRED)
-find_package(OpenMP REQUIRED)
-
-# add_definitions(-DEIGEN_DONT_PARALLELIZE)
 
 
 message(STATUS "Python includes at ${Python_INCLUDE_DIRS} ${Python_NumPy_INCLUDE_DIRS}")
 
 # Include the root directory
-set(EntropicMFG_HEADERS
-    Kernels.h
-    Utils.h
-    KLOperator.h
-    CongestionOperator.h
-    RectangularGridLaplacian.h
-    MessagePassing.h
-    MultiSinkhorn.h)
+file(GLOB_RECURSE EntropicMFG_HEADERS
+     include/*.h*
+     )
 
-set(EntropicMFG_SOURCES
-    MultiSinkhorn.cpp
-    MessagePassing.cpp)
+file(GLOB_RECURSE EntropicMFG_SOURCES
+     src/*.cpp
+     )
 
 
-add_library(entropicmfg SHARED ${EntropicMFG_SOURCES})
-target_include_directories(entropicmfg PUBLIC .)
-target_link_libraries(entropicmfg Eigen3::Eigen)
-set_target_properties(entropicmfg PROPERTIES LINKER_LANGUAGE CXX)
-target_compile_options(entropicmfg PRIVATE -fPIC)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
+
+set(DOXYGEN_USE_MATHJAX YES)
 
 
-if(TARGET Python::NumPy)
-    target_sources(entropicmfg PRIVATE matplotlibcpp.h)
-    target_link_libraries(entropicmfg Python::Python Python::NumPy)
-    target_include_directories(entropicmfg PRIVATE ${Python_INCLUDE_DIRS} ${Python_NumPy_INCLUDE_DIRS})
-endif(TARGET Python::NumPy)
+if(UNIX)
+
+    add_compile_options(-Wall -march=native)
+
+    add_library(${PROJECT_NAME} SHARED ${EntropicMFG_SOURCES} ${EntropicMFG_HEADERS})
+    set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
+    target_compile_options(${PROJECT_NAME} PRIVATE "-fPIC")
+    target_include_directories(${PROJECT_NAME} PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
+    )
+    target_link_libraries(${PROJECT_NAME} Eigen3::Eigen)
+
+endif()
+
+option(BUILD_WITH_MPL "Build with matplotlibcpp" ON)
+option(BUILD_PYTHON "Make Python bindings." ON)
 
 
-# Add examples
-add_subdirectory(examples)
+
+if(BUILD_WITH_MPL)
+    target_sources(${PROJECT_NAME} PRIVATE matplotlibcpp.h)
+    target_link_libraries(${PROJECT_NAME} Python::Python Python::NumPy)
+    target_include_directories(${PROJECT_NAME} PRIVATE ${Python_INCLUDE_DIRS} ${Python_NumPy_INCLUDE_DIRS})
+endif()
 
 
-# Python bindings for library
-option(PythonBindings "Make Python bindings." ON)
+option(BUILD_EXAMPLES "Build examples" ON)
 
-if(${PythonBindings})
+if(BUILD_EXAMPLES)
+    # Add examples
+    add_subdirectory(examples)
+endif()
+
+
+if(BUILD_PYTHON)
     message(STATUS "Python bindings enabled.")
     add_subdirectory(python)
-endif(${PythonBindings})
+endif()
 
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

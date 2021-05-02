@@ -4,7 +4,6 @@
 
 #include "MultiSinkhorn.h"
 
-
 namespace py = pybind11;
 
 
@@ -22,8 +21,11 @@ void bind_sinkhorn(py::module& m) {
                       kernels::KernelPtr,
                       Eigen::MatrixXd&>())
         .def("iterate", &MultimarginalSinkhorn::iterate)
-        .def("run", &MultimarginalSinkhorn::run)
-        .def("get_marginals", &MultimarginalSinkhorn::get_marginals);
+        .def("solve", &MultimarginalSinkhorn::solve)
+        .def("get_marginals", &MultimarginalSinkhorn::get_marginals,
+             py::return_value_policy::copy)
+        .def_readwrite("threshold", &MultimarginalSinkhorn::threshold_)
+        .def_property_readonly("conv_metrics_", &MultimarginalSinkhorn::getConvMetric);
     
 
 }

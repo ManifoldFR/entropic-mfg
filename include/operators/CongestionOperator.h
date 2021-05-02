@@ -1,8 +1,9 @@
+/// @file Proximal operators for the congestion costs and constraints.
+
 #pragma once
 
-#include <omp.h>
 #include <Eigen/Dense>
-#include "KLOperator.h"
+#include "operators/KLOperator.h"
 
 
 using namespace Eigen;
@@ -11,22 +12,22 @@ using namespace Eigen;
 namespace klprox
 {
 /**
- * KL-proximal operator for the hard congestion operator
- * with a reference potential function.
+ * KL-proximal operator for the hard congestion constraint
+ * with a reference potential profile.
  * 
  */
-class CongestionPotentialProx: public virtual BaseProximalOperator {
-    private:
-    double congest_max;
+class CongestionPotentialProx: public virtual ProximalOpBase<double> {
+private:
+    double congest_max_;
     ArrayXXd psi;
     const size_t nx, ny;
     
-    public:
-    CongestionPotentialProx(double congest_max, const MatrixXd& psi):
-    congest_max(congest_max), psi(psi), nx(psi.rows()), ny(psi.cols()) {}
+public:
+    CongestionPotentialProx(double congest_max_, const MatrixXd& psi):
+    congest_max_(congest_max_), psi(psi), nx(psi.rows()), ny(psi.cols()) {}
     MatrixXd operator()(const MatrixXd& x) const override {
         ArrayXXd y = x.array() * exp(-psi);
-        return y.min(congest_max);
+        return y.min(congest_max_);
     }
 
 };
@@ -35,7 +36,7 @@ class CongestionPotentialProx: public virtual BaseProximalOperator {
  * KL-proximal operator for the obstacle or "mask" constraint (zero mass on the mask).
  * 
  */
-class ObstacleProx: public virtual BaseProximalOperator {
+class ObstacleProx: public virtual ProximalOpBase<double> {
     private:
     /// May be mutable for moving obstacles
     ArrayXXi obstacle_mask;
@@ -57,8 +58,8 @@ class ObstacleProx: public virtual BaseProximalOperator {
  */
 class CongestionObstacleProx: public CongestionPotentialProx, public ObstacleProx {
     public:
-    CongestionObstacleProx(const ArrayXXi& mask, double congest_max, const MatrixXd& psi
-    ): CongestionPotentialProx(congest_max, psi), ObstacleProx(mask) {}
+    CongestionObstacleProx(const ArrayXXi& mask, double congest_max_, const MatrixXd& psi
+    ): CongestionPotentialProx(congest_max_, psi), ObstacleProx(mask) {}
 
 
     MatrixXd operator()(const MatrixXd& x) const override {
