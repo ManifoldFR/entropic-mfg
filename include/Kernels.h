@@ -21,7 +21,7 @@ public:
 using KernelPtr = std::shared_ptr<KernelBase<double>>;
 
 
-/// Heat kernel on Euclidean space.
+/// Gaussian (heat) kernel on Euclidean space.
 template <size_t Dim, typename S = double>
 class EuclideanHeatKernelTpl : public KernelBase<S> {
     typedef S Scalar;
@@ -40,10 +40,11 @@ public:
 };
 
 
-
-
+/// Separable Gaussian kernel on Euclidean space.
+/// Assumes a kernel \f$ K = K_1\otimes K_2\f$.
 class SeparableEuclideanKernel2D : public EuclideanHeatKernelTpl<2, double> {
 public:
+    /// Individual sub-kernels.
     MatrixXd K1_, K2_;
     double dx, dy;
     SeparableEuclideanKernel2D(

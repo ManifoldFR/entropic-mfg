@@ -29,7 +29,7 @@ set(DOXYGEN_USE_MATHJAX YES)
 
 if(UNIX)
 
-    add_compile_options(-Wall -march=native)
+    add_compile_options(-Wall -Wpedantic -Wextra -march=native)
 
     add_library(${PROJECT_NAME} SHARED ${EntropicMFG_SOURCES} ${EntropicMFG_HEADERS})
     set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)

@@ -49,9 +49,9 @@ bool MultimarginalSinkhorn::solve(size_t num_iterations, std::vector<MatrixXd> &
         std::cout << BLUE << "> MultiSinkhorn solver" << RESET << std::endl;
 
     nsteps_ = potentials.size();
-    metric_vals_.resize(0);
-    _old_potentials.resize(nsteps_);
-    potentials_.resize(nsteps_);
+    metric_vals_.reserve(nsteps_);
+    _old_potentials.reserve(nsteps_);
+    potentials_.reserve(nsteps_);
 
     for (size_t t = 0; t < nsteps_; t++) {
         potentials_[t].noalias() = potentials[t];
